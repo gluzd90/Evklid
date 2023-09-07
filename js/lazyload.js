@@ -1,0 +1,4 @@
+function throttle(func,timeout){let inThrottle=!1;return function(){const args=arguments;const context=this;if(!inThrottle){inThrottle=!0;func.apply(context,args);setTimeout(()=>{inThrottle=!1},timeout)}}}
+function lazyload(){const windowHeight=window.innerHeight;const images=document.querySelectorAll('img.lazyload');const offset=100;images.forEach(image=>{const boundingRect=image.getBoundingClientRect();const yPosition=boundingRect.top-windowHeight;const yPositionBottom=boundingRect.bottom;if(yPosition<=offset&&yPositionBottom>=-offset){if(image.getAttribute('data-src')){image.src=image.getAttribute('data-src')}
+image.addEventListener('load',function(){this.classList.remove('lazyload')})}})}
+const throttledLazyLoad=throttle(lazyload,200);document.addEventListener('scroll',throttledLazyLoad);window.addEventListener('resize',throttledLazyLoad);window.addEventListener('orientationChange',throttledLazyLoad);throttledLazyLoad()
